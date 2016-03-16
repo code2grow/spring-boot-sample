@@ -20,8 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @myblog  http://blog.csdn.net/catoop/
  * @create    2016年1月12日
  */
-@Service
-public class StudentService {
+@Service("studentService")
+@Transactional
+public class StudentService implements IStudentService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -29,11 +30,19 @@ public class StudentService {
 	@Autowired
 	private StudentMapper studentMapper;
 	
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#likeName(java.lang.String)
+	 */
+	@Override
 	@TargetDataSource(name="ds2")
 	public List<Student> likeName(String name){
 		return studentMapper.likeName(name);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#testSave()
+	 */
+	@Override
 	public int testSave(){
 		Student stu = new Student();
 		stu.setAge(33);
@@ -43,6 +52,10 @@ public class StudentService {
 		return studentMapper.insert(stu);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#likeNameByDefaultDataSource(java.lang.String)
+	 */
+	@Override
 	@Transactional
 	public List<Student> likeNameByDefaultDataSource(String name){
 		Student stu = new Student();
@@ -56,13 +69,10 @@ public class StudentService {
 		return studentMapper.likeName(name);
 	}
 	
-	/**
-	 * 不指定数据源使用默认数据源
-	 *
-	 * @return
-	 * @author SHANHY
-	 * @create  2016年1月24日
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#getList()
 	 */
+	@Override
 	public List<Student> getList(){
 		String sql = "SELECT ID,NAME,SCORE_SUM,SCORE_AVG, AGE   FROM STUDENT";
 		return (List<Student>) jdbcTemplate.query(sql, new RowMapper<Student>(){
@@ -81,13 +91,10 @@ public class StudentService {
 		});
 	}
 	
-	/**
-	 * 指定数据源
-	 *
-	 * @return
-	 * @author SHANHY
-	 * @create  2016年1月24日
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#getListByDs1()
 	 */
+	@Override
 	@Transactional
 	@TargetDataSource(name="ds1")
 	public List<Student> getListByDs1(){
@@ -108,15 +115,11 @@ public class StudentService {
 		});
 	}
 	
-	/**
-	 * 指定数据源
-	 *
-	 * @return
-	 * @author SHANHY
-	 * @create  2016年1月24日
+	/* (non-Javadoc)
+	 * @see org.springboot.sample.service.IStudentService#getListByDs2()
 	 */
+	@Override
 	@TargetDataSource(name="ds2")
-	@Transactional
 	public List<Student> getListByDs2(){
 		String sql = "SELECT ID,NAME,SCORE_SUM,SCORE_AVG, AGE   FROM STUDENT";
 		return (List<Student>) jdbcTemplate.query(sql, new RowMapper<Student>(){

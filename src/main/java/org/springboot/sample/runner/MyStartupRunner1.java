@@ -1,10 +1,12 @@
 package org.springboot.sample.runner;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springboot.sample.dao.IScoreDao;
 import org.springboot.sample.service.HelloWorldService;
-import org.springboot.sample.service.StudentService;
+import org.springboot.sample.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -22,9 +24,9 @@ import org.springframework.stereotype.Component;
 public class MyStartupRunner1 implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyStartupRunner1.class);
-	
+
 	@Autowired
-	private StudentService stuService;
+	private IStudentService stuService;
 
 	@Autowired
 	private IScoreDao scoreDao; 

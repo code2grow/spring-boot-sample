@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springboot.sample.datasource.DynamicDataSourceRegister;
-import org.springboot.sample.datasource.MProxyTransactionManagementConfiguration;
 import org.springboot.sample.servlet.MyServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @ServletComponentScan
 @EnableTransactionManagement // 支持事务
-@Import({DynamicDataSourceRegister.class, MProxyTransactionManagementConfiguration.class}) // 注册动态多数据源
+@Import({DynamicDataSourceRegister.class}) // 注册动态多数据源
 public class SpringBootSampleApplication extends SpringBootServletInitializer {
 
 	private static final Logger logger = LoggerFactory.getLogger(SpringBootSampleApplication.class);

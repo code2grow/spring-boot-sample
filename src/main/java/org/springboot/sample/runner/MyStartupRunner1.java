@@ -1,7 +1,5 @@
 package org.springboot.sample.runner;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springboot.sample.dao.IScoreDao;
@@ -49,3 +47,5 @@ public class MyStartupRunner1 implements CommandLineRunner {
 	} 
 
 }
+
+

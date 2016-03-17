@@ -112,6 +112,11 @@
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.18</version>
+		</dependency>
 		<!-- MyBatis -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.mybatis.spring.boot</groupId> -->

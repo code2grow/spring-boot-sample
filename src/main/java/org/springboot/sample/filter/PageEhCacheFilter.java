@@ -75,7 +75,8 @@ public class PageEhCacheFilter extends SimplePageCachingFilter {
         }
     }
     
-    private boolean headerContains(final HttpServletRequest request, final String header, final String value) {
+    @SuppressWarnings("rawtypes")
+	private boolean headerContains(final HttpServletRequest request, final String header, final String value) {
         logRequestHeaders(request);
         final Enumeration accepted = request.getHeaders(header);
         while (accepted.hasMoreElements()) {

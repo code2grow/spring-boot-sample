@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springboot.sample.util.RestClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,28 @@ public class HelloController {
 			map.put("name", "Shanhy-" + i);
 			list.add(map);
 		}
+		
 		return list;
+	}
+
+	/**
+	 * 测试 RestClient 
+	 *
+	 * @return
+	 * @author SHANHY
+	 * @create  2016年3月18日
+	 */
+	@RequestMapping("/test1")
+	public String testRestTemplate(){
+
+		String url = "http://localhost:8080/myspringboot/hello/info.json?name={name}&name1={name1}";
+		Map<String, Object> paramMap = new HashMap<String, Object>(); 
+		paramMap.put("name", "Tom");  
+		paramMap.put("name1", "Lily");
+        String result = RestClient.getClient().getForObject(url, String.class, paramMap);
+        System.out.println(">>>>>result>>>>>" + result);
+        
+        return result;
 	}
 	
 }

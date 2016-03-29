@@ -12,7 +12,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
  * @myblog  http://blog.csdn.net/catoop/
  * @create    2016年3月17日
  */
-@WebFilter(filterName="druidWebStatFilter",urlPatterns="/*",
+@WebFilter(filterName="druidWebStatFilter",urlPatterns="/*", asyncSupported = true,
 	initParams={
 		@WebInitParam(name="exclusions",value="*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*")// 忽略资源
 })

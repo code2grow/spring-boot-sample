@@ -20,7 +20,7 @@ import javax.servlet.annotation.WebFilter;
  * @myblog  http://blog.csdn.net/catoop/
  * @create    2016年1月6日
  */
-@WebFilter(filterName="myFilter",urlPatterns="/*")
+@WebFilter(filterName="myFilter",urlPatterns="/*", asyncSupported = true)
 public class MyFilter implements Filter {
 
     @Override

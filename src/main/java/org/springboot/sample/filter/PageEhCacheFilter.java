@@ -26,7 +26,7 @@ import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
  * @myblog  http://blog.csdn.net/catoop/
  * @create    2016年2月19日
  */
-@WebFilter(filterName="PageEhCacheFilter",urlPatterns="/*", 
+@WebFilter(filterName="PageEhCacheFilter",urlPatterns="/*", asyncSupported = true, 
 initParams={
 	@WebInitParam(name="patterns", value="/page1")
 })

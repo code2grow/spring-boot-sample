@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springboot.sample.config.viewresolver.JsonViewResolver;
 import org.springboot.sample.config.viewresolver.PdfViewResolver;
 import org.springboot.sample.config.viewresolver.XlsViewResolver;
+import org.springboot.sample.interceptor.JsonErrorMsgInterceptor;
 import org.springboot.sample.interceptor.MyInterceptor1;
 import org.springboot.sample.interceptor.MyInterceptor2;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +46,7 @@ public class MyWebAppConfigurer
 		// excludePathPatterns 用户排除拦截
 		registry.addInterceptor(new MyInterceptor1()).addPathPatterns("/**");
 		registry.addInterceptor(new MyInterceptor2()).addPathPatterns("/**");
+		registry.addInterceptor(new JsonErrorMsgInterceptor()).addPathPatterns("*.json");
 		super.addInterceptors(registry);
 	}
 

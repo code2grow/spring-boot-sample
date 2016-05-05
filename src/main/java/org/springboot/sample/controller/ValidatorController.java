@@ -3,6 +3,8 @@ package org.springboot.sample.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springboot.sample.entity.ValidatorTest;
@@ -99,6 +101,27 @@ public class ValidatorController {
 		return "validator2";
 	}
 	
+	@RequestMapping("/test6")
+	@ResponseBody
+	public Model test6(@Valid @ModelAttribute("testModel") ValidatorTest test, 
+			BindingResult result, Model model){
+		model.addAttribute("test", test);
+		// 在实际开发中，我们需要判断是否存在错误，来决定是继续执行后续代码，还是跳转到别的页面
+		if(result.hasErrors()){
+			model.addAttribute("error", "验证不通过!");
+		}
+		return model;
+	}
+	
+	/**
+	 * 基础数据类型验证
+	 *
+	 * @param name
+	 * @param model
+	 * @return
+	 * @author SHANHY
+	 * @create  2016年4月29日
+	 */
 	@RequestMapping("/test4")
 	@ResponseBody
 	public Model test4(String name,Model model){
@@ -107,7 +130,7 @@ public class ValidatorController {
 	}
 	
 	/**
-	 * 测试方法级别的验证
+	 * 测试方法级别的验证（如果验证失败，则会抛出异常 ConstraintViolationException）
 	 *
 	 * @param name
 	 * @param model
@@ -118,8 +141,33 @@ public class ValidatorController {
 	@RequestMapping("/test5")
 	@ResponseBody
 	public Model test5(String name, String password, Model model){
-		String content = validatorTestService.getContent(name, password);
-		model.addAttribute("name", content);
+		try {
+			String content = validatorTestService.getContent(name, password);
+			model.addAttribute("name", content);
+		} catch (ConstraintViolationException e) {
+			addErrorMessage(model, e);
+		}
 		return model;
+	}
+	
+	/**
+	 * 添加错误消息，建议将该方法提取为一个公共的方法使用。
+	 *
+	 * @param model
+	 * @param e
+	 * @author SHANHY
+	 * @create  2016年5月4日
+	 */
+	protected void addErrorMessage(Model model, ConstraintViolationException e){
+		Map<String, String> errorMsg = new HashMap<>();
+		model.addAttribute("errorMsg", errorMsg);
+		
+		for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations()) {
+			// 获得验证失败的类 constraintViolation.getLeafBean()
+			// 获得验证失败的值 constraintViolation.getInvalidValue()
+			// 获取参数值 constraintViolation.getExecutableParameters()
+			// 获得返回值 constraintViolation.getExecutableReturnValue()
+			errorMsg.put(constraintViolation.getLeafBean().getClass().getName() + "-" + constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
+		}
 	}
 }

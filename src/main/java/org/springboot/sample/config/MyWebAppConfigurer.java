@@ -20,6 +20,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -46,7 +47,8 @@ public class MyWebAppConfigurer
 		// excludePathPatterns 用户排除拦截
 		registry.addInterceptor(new MyInterceptor1()).addPathPatterns("/**");
 		registry.addInterceptor(new MyInterceptor2()).addPathPatterns("/**");
-		registry.addInterceptor(new JsonErrorMsgInterceptor()).addPathPatterns("*.json");
+//		registry.addInterceptor(new JsonErrorMsgInterceptor()).addPathPatterns("*.json");
+		registry.addInterceptor(new JsonErrorMsgInterceptor()).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 
@@ -122,4 +124,9 @@ public class MyWebAppConfigurer
         return resolver;
     }
     
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor(){
+    	MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+    	return processor;
+    }
 }

@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springboot.sample.dao.IScoreDao;
 import org.springboot.sample.entity.Score;
 import org.springboot.sample.entity.Student;
+import org.springboot.sample.entity.ValidatorTest;
 import org.springboot.sample.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,11 +44,22 @@ public class StudentController {
 		return list;
 	}
 
+	/**
+	 * 如果要携带错误信息BindingResult，返回值必须为Model或者ModelAndView。
+	 * 比如单纯的返回 List<Student> 是不会携带 BindingResult 信息的。
+	 *
+	 * @param test
+	 * @param result
+	 * @param model
+	 * @return
+	 * @author SHANHY
+	 * @create  2016年4月28日
+	 */
 	@RequestMapping("/list")
-	public List<Student> getStus(){
+	public Model getStus(@Valid ValidatorTest test,BindingResult result, Model model){
 		logger.info("从数据库读取Student集合");
-		studentService.testSave();
-		return studentService.getList();
+		model.addAttribute("list", studentService.getList());
+		return model;
 	}
 	
 	@RequestMapping("/scoreList")
